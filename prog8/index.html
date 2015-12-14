@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>JQuery slider</title>
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var i = 0;
+				var num_imgs = 3;
+				var arr = ['lion.jpg','tiger.jpg','cheetah.jpg'];
+				$('#prev').hide();
+				$('#next').click(function(){
+					
+					$( "#slider" ).animate({
+				        width: "toggle"
+				      }, 200, function() {
+				      		i++;
+				            $('#slider').attr("src",arr[i]);
+				      		$('#slider').show(200);
+				      		if(i == 1){
+				      			$('#prev').show();
+				      		}
+				      		if(i == 2){
+				      			$('#next').hide();
+				      		}
+				      		
+				     });
+				});
+				$('#prev').click(function(){
+					$('#slider').animate({
+						width:"toggle"
+					},200,function(){
+						i--;
+						$('#slider').attr("src",arr[i]);
+				      		$('#slider').show(200);
+				      		if(i == 1){
+				      			$('#next').show();
+				      		}
+				      		if(i == 0){
+				      			$('#prev').hide();
+				      		}
+				      		
+					});
+				});
+
+			});
+		</script>
+	</head>
+	<body>
+		<center>
+			<img src="lion.jpg" id="slider" height="400px" width="400px">
+			<br>
+			<input type="button" value="next" id="next" >
+			<input type="button" value="prev" id="prev">
+		</center>
+	</body>
+</html>
