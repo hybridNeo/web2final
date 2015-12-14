@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+	#chatWindow{
+		height: 300px;
+		border :3px solid;
+
+		width: 300px;
+	}
+	</style>
+	<script type="text/javascript">
+	function init(){
+		time = 5;
+		poll();
+	}
+	function poll(){
+		setTimeout(fin,500);
+		var usr = document.getElementById("user1").value;
+		var msg = document.getElementById("msg").value;
+		var box = document.getElementById("chatWindow");
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				if(xhr.responseText.split(":")[0] != usr){
+					box.innerHTML += xhr.responseText+"<br>";	
+				}
+				
+				xhr.abort();
+				poll();
+			}
+	
+		}
+		xhr.open("GET","server.php?send=false",true);
+		xhr.send();
+	}
+	function fin(){
+		xhr.abort();
+		poll();
+	}
+	function send(){
+		var usr = document.getElementById("user1").value;
+		var msg = document.getElementById("msg").value;
+		nxhr = new XMLHttpRequest();
+		nxhr.onreadystatechange = function(){
+			var box = document.getElementById("chatWindow");
+			if(nxhr.readyState == 4 && nxhr.status == 200){
+				// window.log(nxhr.responseText);
+				box.innerHTML += "Me:"+msg+"<br>";
+
+			}
+		}
+		nxhr.open("GET","server.php?send=true&msg="+usr+":"+msg,true);
+		nxhr.send();
+	}
+	</script>
+	<title>Chat application</title>
+</head>
+<body onload="init()">
+<div  id="chatWindow"><br>
+
+</div>
+
+Username:<input type="text" id="user1"><br>
+<input id="msg" type="text"><input type="button" value="Send" onclick="send()">
+</body>
+</html>
