@@ -1,65 +1,52 @@
-<!DOCTYPE html>
 <html>
-  <head>
-     <style type="text/css">
-      * { height: 100% }
-     
-    </style>
-    <script type="text/javascript"
-     src="https://goo.gl/r9ArNC">
-
-    </script>
-    <script type="text/javascript">
-    
-		
-	
-      function init() {
-	  	
-		locations = [
-			{
-				lat:'12.9342678',
-				lng:'77.53432629999998',
-				name:'PES Institute of Technology'
-			},
-			{
-				lat:'12.9247501',
-				lng:'77.49875709999992',
-				name:'RVCE'
-			},
-			{
-				lat:'12.9404973',
-				lng:'77.56568749999997',
-				name:'BMS'
-			},
-			{
-				lat:'12.8614515',
-				lng:'77.66470809999998',
-				name:'PES South Campus'
-			}
-		]
-		var myLatLng = new google.maps.LatLng(locations[0].lat, locations[0].lng);
-        var mapOptions = {
-          center: myLatLng,
-          zoom: 12,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
-            mapOptions);
-
-		for(var i=0; i<locations.length; i++)
-		{
-			
-		    var myLatLng = new google.maps.LatLng(locations[i].lat,locations[i].lng);
-			var marker = new google.maps.Marker({
-				position: myLatLng,
-				map: map,
-				title: locations[i].name
-		  	});
+	<head>
+		<script src="http://www.goo.gl/r9ArNC"></script>
+		<style type="text/css">
+		*{
+			height: 100%;
 		}
-      }
-    </script>
-  </head>
-  <body onload="init()">
-    <div id="map_canvas" style="width:100%; height:100%"></div>
-  </body>
+		</style>
+		<script type="text/javascript">
+		function init(){
+			var myLatLng = new google.maps.LatLng("12.9342678", "77.53432629999998");
+
+        	var mapOptions = {
+	          center: myLatLng,
+	          zoom: 12,
+	          mapTypeId: google.maps.MapTypeId.ROADMAP
+	        };
+	        map = new google.maps.Map(document.getElementById("mapCanvas"),
+	            mapOptions);
+			
+			xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(){
+				//
+				if(xhr.status == 200 && xhr.readyState == 4){
+
+					var values = JSON.parse(xhr.responseText);
+					loadMap(values);
+				}
+				//
+			};
+			xhr.open("GET","data",true);
+			xhr.send();
+			
+		}
+		function loadMap(values){
+			for(var i=0; i < values.length; ++i){
+				var myLatLng = new google.maps.LatLng(values[i].lat, values[i].lng);
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map:map,
+					title:values[i].name
+				});
+			}			
+
+		}
+		</script>
+	</head>
+	<body onload="init()">
+
+		<div id="mapCanvas" style="width:100%; height:100%"></div>
+	</body>
 </html>
