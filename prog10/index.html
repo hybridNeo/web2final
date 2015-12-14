@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="zxml.src.js" ></script>
+	<script type="text/javascript" src="xparser_lib.js" ></script>
+	<title>Search</title>
+	<style type="text/css">
+	a{
+		color:red;
+	}
+	</style>
+	<script type="text/javascript">
+		function foo(){
+				var key=document.getElementById('key').value;
+				xparser.getFeed("http://localhost/web2final/prog10/server.php?search="+encodeURIComponent(key),success,null);
+		}
+		function success(root){
+			var feed = document.getElementById("res");
+			for(i in root.items){
+				var d = document.createElement("div");
+				var a = document.createElement("a");
+				a.href = root.items[i].link.value;
+				a.innerHTML = root.items[i].title.value;
+				d.appendChild(a);
+				d.innerHTML += "<br>"+root.items[i].description.value + "<br><hr>";
+				feed.appendChild(d);
+			}
+		}
+	</script>
+</head>
+<body >
+<center>
+<h2> Seach Engine</h2>
+<input type="text" id="key"> <input type="button" onclick="foo()" value="search">
+<br><br>
+<div id="res">
+</div>
+</center>
+</body> 
+</html>
