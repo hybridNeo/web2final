@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSON example</title>
+	<script type="text/javascript">
+		function submit(){
+			var country = document.getElementById("country").value;
+			xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(){
+				if(xhr.status == 200 && xhr.readyState == 4){
+					arr = JSON.parse(xhr.responseText);
+					table = document.createElement("table");
+					table.style.border = "2px solid";
+					table.innerHTML+="<tr><th>Name</th><th>country</th><th>matches</th><th>runs</th><th>Hundreds</th>";
+					for(var i=0;i< arr.length;++i){
+						var tr = document.createElement("tr");
+						tr.innerHTML+="<td>"+arr[i].name+"</td>"+"<td>"+arr[i].country+"</td>"+"<td>"+arr[i].matches+"</td>"+"<td>"+arr[i].runs+"</td>"+"<td>"+arr[i].hundreds+"</td>";
+						table.appendChild(tr);
+					}
+					document.getElementById("res").appendChild(table);
+				}
+			}
+			xhr.open("GET","server.php?country="+encodeURIComponent(country),true);
+			xhr.send();
+		}
+	</script>
+</head>
+<body>
+<center>
+	<h2>Welcome to JSON program</h2>
+	Enter Country:<input type="text" id="country">
+	<br>
+	<input type="button" onclick="submit()" value="submit" >
+	<div id="res"></div>	
+
+</center>
+</body>
+</html>
