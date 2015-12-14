@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<script type="text/javascript">
+			function foo(){
+				var usn = document.getElementById('usn').value;
+				
+				document.getElementById('helper').src = 'server.php?usn='+usn;
+
+			}
+			function reply(e){
+				if(e == 'invalid usn'){
+					document.getElementById('res').innerHTML = 'invalid usn';
+				}else{
+					var arr = e.split(';');
+					document.getElementById('name').value = arr[0];
+					document.getElementById('dept').value = arr[1];
+					document.getElementById('gpa').value = arr[2];
+
+				}
+				
+
+			}
+		</script>
+		<style type="text/css">
+		input{
+			line-height: 110%;
+		}
+		</style>
+	</head>
+
+	<body>
+		<center>
+			<h3>Welcome</h3>
+			USN:<input type="text" id="usn" onblur="foo()"><div id="res"></div><br>
+			Name:<input type="text" id="name" readonly><br><br>
+			Dept:<input type="text" id="dept" readonly><br><br>
+			GPA:<input type="text" id="gpa" readonly><br><br>
+		</center>
+		<iframe id="helper" width="0" height="0" frameborder="0" src="" >
+	</body>
+</html>

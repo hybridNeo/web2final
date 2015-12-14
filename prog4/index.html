@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sine Wave</title>
+	<script type="text/javascript">
+	function init(){
+		c = document.getElementById("myCanvas");
+		ctx = c.getContext('2d');
+		ctx.beginPath();
+		ctx.moveTo(10,250);
+		ctx.lineTo(10,100);
+		ctx.lineTo(15,105);
+		ctx.moveTo(10,100);
+		ctx.lineTo(5,105);
+		ctx.moveTo(10,250);
+		ctx.lineTo(700,250);
+		ctx.stroke();
+		ctx.moveTo(10,250);
+
+		drawSine(10);
+	}
+	function foo(){
+		startWorker();
+	}
+	function startWorker(){
+		if(typeof(w) == 'undefined'){
+			w = new Worker('worker.js');
+			w.postMessage(document.getElementById('fact').value);
+			w.onmessage = function(e){
+				document.getElementById('ans').innerHTML = e.data;
+			};
+		}
+	}
+	function drawSine(x){
+		// Y = A sin(2*pi*f)
+		
+
+		y = 50 * Math.sin(2*Math.PI*x/100);
+		if(x == 500){
+			ctx.clearRect(0,0,1500,1500);
+			init();
+			
+		}else{
+			ctx.lineTo(x,250-y);
+			x+=1;
+			ctx.stroke();
+			setTimeout(drawSine,1,x);
+		}
+		
+	}
+	
+	</script>
+</head>
+<body onload="init()">
+<h2>Sine Wave</h2>
+<canvas id="myCanvas" width="800px" height="400px" style="border:1px solid" >
+
+</canvas>
+Enter number for factorial<input type="text" id="fact"><br>
+<input type="button" id="sub" onclick="foo()" value="submit">
+<div id="ans"></div>
+</body>
+</html>

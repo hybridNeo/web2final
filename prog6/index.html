@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multi Stage download</title>
+	<script type="text/javascript">
+	function init(){
+		arr = ['lion.jpg','tiger.jpg','cheetah.jpg'];
+		newArr = ['i1','i2','i3'];
+		setTimeout(loadImage,2000,0);	
+	}
+	function loadLinks(){
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(xhr.status == 200 && xhr.readyState == 4){
+				document.getElementById('links').innerHTML = xhr.responseText;
+			}
+		}
+		xhr.open("GET","links.txt",true);
+		xhr.send();
+	}
+	function foo(){
+		var book_id = document.getElementById('search').value;
+		sxhr = new XMLHttpRequest();
+		sxhr.onreadystatechange = function(){
+			if(sxhr.readyState == 4 && sxhr.status == 200){
+				alert(sxhr.responseText);
+			}
+		};
+		sxhr.open("GET","server.php?id="+book_id,true);
+		sxhr.send();
+	}
+	function loadImage(i){
+		if(i < 3){
+			var temp = document.getElementById(newArr[i]);
+			temp.src = arr[i];
+			setTimeout(loadImage,2000,i+1);
+		}else{
+			setTimeout(loadLinks,2000);
+		}
+
+		
+
+	}
+	</script>
+</head>
+<body onload="init()">
+<center>
+	<h2>Welcome to book database site</h2>
+	<span><img src="loading.gif" id="i1" width="300px"><img src="loading.gif" width="300px" id="i2"><img src="loading.gif" id="i3" width="300px"></span>
+	<br>
+	<input type="text" id="search" ><br>
+	<input type="button" onclick="foo()" value="search">
+	<div id="links">
+
+	</div>
+</center>
+</body>
+</html>

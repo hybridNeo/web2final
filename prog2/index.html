@@ -1,0 +1,88 @@
+<html>
+	<head>
+		
+		<title>WEb Workers with Animation</title>
+		<script type="text/javascript">
+			function init(){
+
+				c = document.getElementById("mycanvas");
+				ctx = c.getContext("2d");
+
+				
+				x = 0;
+				y = 0;
+				r=0;
+				ctx.clearRect(0,0,600,600);
+				drawSquare();
+				
+			}
+			function send(){
+		        var w;
+		        startWorker();
+		    }
+		    function startWorker() {
+		        if(typeof(Worker) !== "undefined") {
+		            if(typeof(w) == "undefined") {
+		                w = new Worker("worker.js");
+		                w.postMessage(document.getElementById("fact").value);
+		            }
+		            w.onmessage = function(event) {
+		                document.getElementById("ans").innerHTML = event.data;
+		            };
+		        } else {
+		            document.getElementById("ans").innerHTML = "Sorry! No Web Worker support.";
+		        }
+		    }
+		    function stopWorker() {
+		        w.terminate();
+		        w = undefined;
+		    }
+			function drawSquare(){
+				if(x < 300 && y < 300){
+					ctx.clearRect(0, 0, c.width, c.height);
+					ctx.fillStyle ="red";
+					ctx.fillRect(150-x/2,150-x/2,x,y);	
+					x+=1;
+					y+=1;
+					a = setTimeout(drawSquare,0);
+				}else{
+					
+					clearTimeout(a);
+					r=0;
+					drawCircle();
+				}
+				
+			}
+			function drawCircle(){
+
+				if(r < 150){
+					ctx.clearRect(0, 0, 600, 600);
+					ctx.beginPath();
+					//
+					ctx.arc(150, 150, r, 0, 2 * Math.PI, false);
+					ctx.fillStyle="green";
+					ctx.fill();
+					//ctx.endPath();
+					r+=1;
+					b = setTimeout(drawCircle,10);
+				}else{
+					r=0;
+					
+					x=0;
+					y=0;
+					init();
+				}
+			}
+				
+		</script>
+	</head>
+	<body onload="init()">
+		<center>
+		<br><br>
+		<canvas style="border:2px solid" height="300" width="300" id="mycanvas"></canvas><br>
+		Enter Number for factorial<input type="text" id="fact"><br>
+		<input type="button" onclick="send()" value="compute"><br>
+		<div id="ans"></div>
+		</center>
+	</body>
+</html>

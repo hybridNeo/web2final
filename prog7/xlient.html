@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<script type="text/javascript">
+		var backoff = 1;
+		function init(){
+			xhr = new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+
+				if(xhr.status==200 && xhr.readyState==4){
+					var arr = xhr.responseText.split(',');
+					document.getElementById("pesitcs").innerHTML = arr[0];
+					document.getElementById("pesitec").innerHTML = arr[1];
+					document.getElementById("rvcs").innerHTML = arr[2];
+					document.getElementById("rvec").innerHTML = arr[3];	
+				}
+				if(xhr.status>=400){
+					backoff*=2;
+				}
+				
+			}
+			xhr.open("GET","server.php",true);
+			xhr.send();
+			setTimeout(init,backoff);
+		}
+		function buy(val){
+			bxhr = new XMLHttpRequest();
+			bxhr.onreadystatechange=function(){
+				if(bxhr.status==200 && bxhr.readyState==4){
+					var arr = xhr.responseText.split(',');
+					document.getElementById("pesitcs").innerHTML = arr[0];
+					document.getElementById("pesitec").innerHTML = arr[1];
+					document.getElementById("rvcs").innerHTML = arr[2];
+					document.getElementById("rvec").innerHTML = arr[3];	
+				}
+			}
+			bxhr.open("GET","server.php?sub="+val,true);
+			bxhr.send();
+		}
+		function foo1(){
+			buy("pesitcs");
+		}
+		function foo2(){
+			buy("pesitec");
+		}
+		function foo3(){
+			buy("rvcs");
+		}
+		function foo4(){
+			buy("rvec");
+		}
+		</script>
+		<title> Selling Watches and Racquettes</title>
+		<style type="text/css">
+		body{
+			text-align: center;
+			background-color: black;
+			color:orange;
+		}
+		</style>
+	</head>
+	<body onload="init()">
+		<h3>Welcome to the cet seat selector </h3>
+		
+		<table border="0px" cellpadding="3px">
+		<tr><th>Seat</th><th>PESIT CS</th><th>PESIT EC</th><th>RV CS</th><th>RV EC</th></tr>
+		<tr>
+			<td> Quantity </td>
+			<td id="pesitcs"></td>
+			<td id="pesitec"></td>
+			<td id="rvcs"></td>
+			<td id="rvec"></td>
+		</tr>
+
+
+		<tr>
+			<td>Buy</td>
+			<td onclick="foo1()">Select now </td>
+			<td onclick="foo2()">Select now </td>
+			<td onclick="foo3()">Select now </td>
+			<td onclick="foo4()">Select now </td>
+
+		</tr>
+		</table>
+	</body>
+</html>
