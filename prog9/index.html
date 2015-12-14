@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="zxml.src.js" ></script>
+	<script type="text/javascript" src="xparser_lib.js" ></script>
+	<title>RSS</title>
+	<style type="text/css">
+	a{
+		color:red;
+	}
+	</style>
+	<script type="text/javascript">
+		function init(){
+				xparser.getFeed("server.php",success,null);
+		}
+		function success(root){
+			var feed = document.getElementById("feed");
+			for(i in root.items){
+				// document.write(root.items[i].title.value+"<br>");
+				var a = document.createElement('a');
+				a.href = root.items[i].link.value;
+				a.innerHTML = root.items[i].title.value + "|&nbsp&nbsp";
+				feed.appendChild(a);
+			}
+		}
+	</script>
+</head>
+<body onload="init()">
+<marquee
+	behaviour="scroll"
+	direction="left"
+	onmouseover="this.stop();"
+	onmouseout="this.start();"
+>
+<span id="feed" ></span>
+</marquee>
+</body>
+</html>
